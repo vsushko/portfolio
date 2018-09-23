@@ -18,27 +18,30 @@ Please put your work on github or bitbucket.
 
 # Test application
 build project:
-```
+```shell
 mvn clean package -DskipTests
 ```
 
 # Run application
-```
+```shell
 cd target
 ```
 then:
-```
+```shell
 java -jar money-transfer-app-1.0-SNAPSHOT-shaded.jar
 ```
-check running application at localhost:8080, where you can see the information page
+check out running application at localhost:8080, where you can see the information page:
 
+![img1](https://github.com/vsushko/portfolio/blob/master/revolut/img/img1.png)
+
+![img2](https://github.com/vsushko/portfolio/blob/master/revolut/img/img2.png)
 # Test application
 adds first user:
-```
+```shell
 curl -k --header "Content-Type: application/json" --request POST --data '{"firstName":"Vasiliy", "middleName": "Vasilievich", "lastName": "Vasiliev"}' http://localhost:8080/api/customers
 ```
 sample output:
-```
+```javascript
 {
   "id" : 1,
   "creationDate" : 1537723463856,
@@ -52,11 +55,11 @@ sample output:
 }
 ```
 adds second user:
-```
+```shell
 curl -k --header "Content-Type: application/json" --request POST --data '{"firstName":"Petr", "middleName": "Petrovich", "lastName": "Petrov"}' http://localhost:8080/api/customers
 ```
 sample output:
-```
+```javascript
 {
   "id" : 2,
   "creationDate" : 1537723465846,
@@ -70,11 +73,11 @@ sample output:
 }
 ```
 adds account to first user:
-```
+```shell
 curl -k --header "Content-Type: application/json" --request POST --data '{"customerId": "1"}' http://localhost:8080/api/accounts
 ```
 sample output:
-```
+```javascript
 {
   "id" : 1,
   "creationDate" : 1537723466064,
@@ -96,11 +99,11 @@ sample output:
 }
 ```
 adds account to second user:
-```
+```shell
 curl -k --header "Content-Type: application/json" --request POST --data '{"customerId": "2"}' http://localhost:8080/api/accounts
 ```
 sample output:
-```
+```javascript
 {
   "id" : 2,
   "creationDate" : 1537723466390,
@@ -122,11 +125,11 @@ sample output:
 }
 ```
 executes transfer creation:
- ```
+ ```shell
 curl -k --header "Content-Type: application/json" --request POST --data '{"operation": "create_transfer", "donorAccount": "1", "recipientAccount": "2", "amount": "1"}' http://localhost:8080/api/transactions
 ```
 sample output:
-```
+```javascript
 [ {
   "id" : 1,
   "creationDate" : 1537723466785,
@@ -184,11 +187,12 @@ sample output:
 } ]
 ```
 executes acceptation of outcome operation(notice that you should specify correct operationUUID):
-```
+```shell
 curl -k --header "Content-Type: application/json" --request POST --data '{"operation": "accept_outcome", "operationUUID": "b0776049-88d3-47b2-bd26-e5a8d95384b8"}' http://localhost:8080/api/transactions
 ```
 sample output:
-```[ {
+```javascript
+[ {
   "id" : 1,
   "creationDate" : 1537650000000,
   "modificationDate" : 1537723505057,
@@ -245,11 +249,11 @@ sample output:
 } ]
 ```
 executes acceptation of income operation(notice that you should specify correct operationUUID):
-```
+```shell
 curl -k --header "Content-Type: application/json" --request POST --data '{"operation": "accept_income", "operationUUID": "4573992a-9ba1-4d0b-bb71-a80f39c63b24"}' http://localhost:8080/api/transactions
 ```
 sample output:
-```
+```javascript
 [ {
   "id" : 1,
   "creationDate" : 1537650000000,
