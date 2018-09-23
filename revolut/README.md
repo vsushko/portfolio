@@ -37,7 +37,7 @@ adds first user:
 ```
 curl -k --header "Content-Type: application/json" --request POST --data '{"firstName":"Vasiliy", "middleName": "Vasilievich", "lastName": "Vasiliev"}' http://localhost:8080/api/customers
 ```
-output:
+sample output:
 ```
 {
   "id" : 1,
@@ -55,7 +55,7 @@ adds second user:
 ```
 curl -k --header "Content-Type: application/json" --request POST --data '{"firstName":"Petr", "middleName": "Petrovich", "lastName": "Petrov"}' http://localhost:8080/api/customers
 ```
-output:
+sample output:
 ```
 {
   "id" : 2,
@@ -73,7 +73,7 @@ adds account to first user:
 ```
 curl -k --header "Content-Type: application/json" --request POST --data '{"customerId": "1"}' http://localhost:8080/api/accounts
 ```
-output:
+sample output:
 ```
 {
   "id" : 1,
