@@ -24,7 +24,7 @@ mvn clean package -DskipTests
 
 # Run application
 ```shell
-cd target
+cd bin
 ```
 then:
 ```shell
