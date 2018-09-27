@@ -91,7 +91,7 @@ public class TransactionServiceImpl implements TransactionService {
         BigDecimal balance = donorAccount.getBalance();
         BigDecimal result = balance.subtract(amount);
 
-        if (result.compareTo(BigDecimal.ZERO) > 0) {
+        if (BigDecimal.ZERO.compareTo(amount) > 0 && BigDecimal.ZERO.compareTo(result) > 0) {
             donorAccount.setReserved(amount);
             donorAccount.setBalance(result);
 
