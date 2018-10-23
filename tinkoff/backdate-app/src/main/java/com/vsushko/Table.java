@@ -1,6 +1,9 @@
 package com.vsushko;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author vsushko
@@ -8,6 +11,7 @@ import java.time.LocalDate;
 public class Table {
 
     static class Entry {
+        int id;
         LocalDate date;
         boolean isBackDate;
         Entry next;
@@ -19,6 +23,7 @@ public class Table {
 
     private Entry head;
     private LocalDate minDate;
+    private int size = 1;
 
     public Table() {
         this.head = null;
@@ -30,6 +35,8 @@ public class Table {
         if (head == null) {
             head = newEntry;
             minDate = date;
+            head.id = size;
+            size += 1;
             return;
         }
         Entry current = head;
@@ -41,27 +48,25 @@ public class Table {
         if (date.isBefore(getMax(current.date))) {
             current.next = newEntry;
             newEntry.isBackDate = true;
+            newEntry.id = size;
         }
         current.next = newEntry;
+        size += 1;
     }
 
     public Entry getAllEntries() {
         return head;
     }
 
-    public Entry getBackDatedEntries() {
+    public Collection<Integer> getBackDatedEntriesIds() {
+        List<Integer> result = new ArrayList<>();
         if (head == null) {
             return null;
         }
-        Entry result = null;
         Entry current = head;
         while (current.next != null) {
             if (current.isBackDate) {
-                if (result == null) {
-                    result = current;
-                } else {
-                    result.next = current;
-                }
+                result.add(current.id);
             }
             current = current.next;
         }
