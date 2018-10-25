@@ -10,21 +10,9 @@ import java.util.List;
  */
 public class Table {
 
-    static class Entry {
-        int id;
-        LocalDate date;
-        boolean isBackDate;
-        Entry next;
-
-        Entry(LocalDate date) {
-            this.date = date;
-        }
-    }
-
     private Entry head;
     private LocalDate minDate;
     private int size = 1;
-
     public Table() {
         this.head = null;
     }
@@ -80,18 +68,18 @@ public class Table {
         return minDate;
     }
 
-    public int size() {
-        if (head == null) {
-            return 0;
-        }
+    public int getSize() {
+        return size - 1;
+    }
 
-        int count = 1;
-        Entry current = head;
+    static class Entry {
+        int id;
+        LocalDate date;
+        boolean isBackDate;
+        Entry next;
 
-        while (current.next != null) {
-            current = current.next;
-            count++;
+        Entry(LocalDate date) {
+            this.date = date;
         }
-        return count;
     }
 }
