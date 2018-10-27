@@ -21,7 +21,7 @@ public class TableTest {
         table.insert(LocalDate.of(2016, 9, 13));
         table.insert(LocalDate.of(2016, 9, 14));
         table.insert(LocalDate.of(2016, 9, 15));
-        assertEquals(5, table.size());
+        assertEquals(5, table.getSize());
 
         Table.Entry entry = table.getAllEntries();
         System.out.println(entry.date);
@@ -34,7 +34,7 @@ public class TableTest {
     @Test
     public void testGetBackDateEntriesIdsWithEmptyTable() {
         Table table = new Table();
-        assertEquals(0, table.size());
+        assertEquals(0, table.getSize());
         Collection<Integer> ids = table.getBackDatedEntriesIds();
         assertNull(ids);
     }
@@ -49,7 +49,7 @@ public class TableTest {
         table.insert(LocalDate.of(2016, 9, 9));
         table.insert(LocalDate.of(2016, 9, 8));
         table.insert(LocalDate.of(2016, 9, 15));
-        assertEquals(7, table.size());
+        assertEquals(7, table.getSize());
         Collection<Integer> ids = table.getBackDatedEntriesIds();
         assertNotNull(ids);
         assertTrue(ids.contains(5));
@@ -65,8 +65,8 @@ public class TableTest {
         table.insert(LocalDate.of(2016, 9, 13));
         table.insert(LocalDate.of(2016, 9, 14));
         table.insert(LocalDate.of(2016, 9, 15));
-        assertEquals(5, table.size());
+        assertEquals(5, table.getSize());
         Collection<Integer> ids = table.getBackDatedEntriesIds();
-        assertNull(ids);
+        assertTrue(ids.isEmpty());
     }
 }
