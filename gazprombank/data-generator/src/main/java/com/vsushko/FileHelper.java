@@ -1,13 +1,13 @@
 package com.vsushko;
 
-import java.io.FileReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author vsushko
@@ -49,24 +49,16 @@ public final class FileHelper {
 
     public static List<String> getOffices(String fileName) {
         List<String> offices = new ArrayList<>();
-
-        Reader fileReader;
+        Scanner reader = null;
         try {
-            fileReader = new FileReader(fileName);
-            int data = fileReader.read();
-
-            while (data != -1) {
-                String officeNumber = Character.toString((char) data);
-                if (!officeNumber.equals("\n")) {
-                    offices.add(officeNumber);
-                }
-                data = fileReader.read();
-            }
-            fileReader.close();
-            return offices;
-        } catch (IOException e) {
+            reader = new Scanner(new File(fileName));
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return Collections.emptyList();
+        while (reader.hasNext()) {
+            offices.add(String.valueOf(reader.nextInt()));
+        }
+        reader.close();
+        return offices;
     }
 }

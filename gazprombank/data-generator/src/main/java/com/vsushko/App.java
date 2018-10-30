@@ -40,7 +40,7 @@ public class App {
                     int randomDay = DateUtils.getRandomDay(randomMonth, precedingYear);
 
                     LocalDate operationDate = LocalDate.of(precedingYear, randomMonth, randomDay);
-                    String officeNumber = String.valueOf(getRandomOffice(offices));
+                    String officeNumber = getRandomOffice(offices);
                     String operationNumber = String.valueOf(i);
                     String operationSum = String.valueOf(DateUtils.getRandomPeriod(10_000, 100_000));
                     outputData.add(String.join(" ", operationDate.toString(), officeNumber, operationNumber,
