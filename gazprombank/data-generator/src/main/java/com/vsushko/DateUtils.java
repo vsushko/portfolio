@@ -6,31 +6,17 @@ import java.util.Calendar;
  * @author vsushko
  */
 public final class DateUtils {
-
     private static final int FIRST_MONTH = 1;
     private static final int LAST_MONTH = 12;
 
-    /**
-     * User only allowed methods
-     */
     private DateUtils() {
         super();
     }
 
-    /**
-     * Returns random month
-     *
-     * @return month
-     */
     public static int getRandomMonth() {
         return getRandomPeriod(FIRST_MONTH, LAST_MONTH);
     }
 
-    /**
-     * Returns random period
-     *
-     * @return month
-     */
     public static int getRandomPeriod(int start, int end) {
         return start + (int) Math.round(Math.random() * (end - start));
     }

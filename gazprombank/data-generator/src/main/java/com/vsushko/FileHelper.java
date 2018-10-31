@@ -14,9 +14,6 @@ import java.util.Scanner;
  */
 public final class FileHelper {
 
-    /**
-     * Use only allowed methods
-     */
     private FileHelper() {
         super();
     }
