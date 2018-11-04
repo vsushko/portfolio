@@ -18,19 +18,28 @@ public class App {
         String sumsByOfficesFileName;
 
         if (args.length == 3) {
+            if (isArgumentsExist(args)) {
+                System.err.println("Some argument is missing (pass: operations.txt sums-by-dates.txt sums-by-offices.txt");
+                return;
+            }
             operationsFileName = args[0];
             sumsByDatesFileName = args[1];
             sumsByOfficesFileName = args[2];
 
-            if (operationsFileName == null || sumsByDatesFileName == null || sumsByOfficesFileName == null) {
-                System.err.println("Some arguments are missing (pass: operations.txt sums-by-dates.txt sums-by-offices.txt");
-                return;
-            }
             List<Operation> operations = FileHelper.getOperations(operationsFileName);
 
             if (!operations.isEmpty()) {
 
             }
         }
+    }
+
+    private static boolean isArgumentsExist(String[] args) {
+        for (String s : args) {
+            if (s == null) {
+                return false;
+            }
+        }
+        return true;
     }
 }
