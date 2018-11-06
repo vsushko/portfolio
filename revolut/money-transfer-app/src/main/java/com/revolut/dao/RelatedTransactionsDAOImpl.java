@@ -1,7 +1,9 @@
 package com.revolut.dao;
 
 import com.revolut.entity.RelatedTransactions;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
@@ -54,10 +56,22 @@ public class RelatedTransactionsDAOImpl implements RelatedTransactionsDAO {
 
     @Override
     public void save(RelatedTransactions relatedTransactions) {
-        Session session = getSessionFactory().openSession();
-        org.hibernate.Transaction tx = session.beginTransaction();
-        session.saveOrUpdate(relatedTransactions);
-        tx.commit();
-        session.close();
+        Transaction transaction = null;
+        Session session = null;
+        try {
+            session = getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            session.saveOrUpdate(relatedTransactions);
+            transaction.commit();
+        } catch (HibernateException ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

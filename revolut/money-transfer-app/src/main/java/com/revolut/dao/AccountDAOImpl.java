@@ -49,7 +49,9 @@ public class AccountDAOImpl implements AccountDAO {
             }
             ex.printStackTrace();
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
@@ -68,7 +70,9 @@ public class AccountDAOImpl implements AccountDAO {
             }
             ex.printStackTrace();
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }

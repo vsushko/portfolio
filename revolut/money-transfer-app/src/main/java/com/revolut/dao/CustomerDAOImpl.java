@@ -1,6 +1,7 @@
 package com.revolut.dao;
 
 import com.revolut.entity.Customer;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -38,10 +39,22 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public void createCustomer(Customer customer) {
-        Session session = getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        session.save(customer);
-        transaction.commit();
-        session.close();
+        Transaction transaction = null;
+        Session session = null;
+        try {
+            session = getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            session.save(customer);
+            transaction.commit();
+        } catch (HibernateException ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

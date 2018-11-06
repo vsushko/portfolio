@@ -1,6 +1,7 @@
 package com.revolut.dao;
 
 import com.revolut.entity.Transaction;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import java.util.Collection;
@@ -38,23 +39,47 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     @Override
     public void saveTransactions(Collection<Transaction> transactions) {
-        Session session = getSessionFactory().openSession();
-        org.hibernate.Transaction transaction = session.beginTransaction();
+        org.hibernate.Transaction transaction = null;
+        Session session = null;
+        try {
+            session = getSessionFactory().openSession();
+            transaction = session.beginTransaction();
 
-        for (Transaction inputTransaction : transactions) {
-            session.saveOrUpdate(inputTransaction);
+            for (Transaction inputTransaction : transactions) {
+                session.saveOrUpdate(inputTransaction);
+            }
+
+            transaction.commit();
+        } catch (HibernateException ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
-
-        transaction.commit();
-        session.close();
     }
 
     @Override
     public void save(Transaction transaction) {
-        Session session = getSessionFactory().openSession();
-        org.hibernate.Transaction tx = session.beginTransaction();
-        session.saveOrUpdate(transaction);
-        tx.commit();
-        session.close();
+        org.hibernate.Transaction tx = null;
+        Session session = null;
+        try {
+            session = getSessionFactory().openSession();
+            tx = session.beginTransaction();
+            session.saveOrUpdate(transaction);
+            tx.commit();
+        } catch (HibernateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
