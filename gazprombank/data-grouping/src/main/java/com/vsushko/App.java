@@ -1,9 +1,14 @@
 package com.vsushko;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import static java.util.stream.Collectors.toMap;
 
 /**
  * @author vsushko
@@ -26,7 +31,7 @@ public class App {
 
             List<Operation> operations = FileHelper.getOperations(operationsFileName);
             Map<String, BigDecimal> operationsCountByDay = new TreeMap(new OperationDateComparator());
-            Map<BigDecimal, BigDecimal> salesCountByOffice = new TreeMap(new OfficeNumberComparator());
+            Map<BigDecimal, BigDecimal> salesCountByOffice = new HashMap<>();
 
             if (operations.isEmpty()) {
                 return;
@@ -51,6 +56,10 @@ public class App {
                     salesCountByOffice.put(officeNumber, new BigDecimal(operationSum));
                 }
             }
+
+            salesCountByOffice = salesCountByOffice.entrySet().stream()
+                    .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                    .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 
             FileHelper.saveStatsCountByDay(sumsByDatesFileName, operationsCountByDay);
             FileHelper.saveStatsCountByOffice(sumsByOfficesFileName, salesCountByOffice);
