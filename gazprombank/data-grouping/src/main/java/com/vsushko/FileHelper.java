@@ -2,9 +2,14 @@ package com.vsushko;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -31,5 +36,31 @@ public final class FileHelper {
         }
         reader.close();
         return operations;
+    }
+
+    public static void saveStatsCountByDay(String fileName, Map<String, BigDecimal> data) {
+        Writer fileWriter;
+        try {
+            fileWriter = new FileWriter(fileName);
+            for (Map.Entry<String, BigDecimal> entry : data.entrySet()) {
+                fileWriter.write(String.join(" ", entry.getKey(), entry.getValue().toString(), "\n"));
+            }
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveStatsCountByOffice(String fileName, Map<BigDecimal, BigDecimal> data) {
+        Writer fileWriter;
+        try {
+            fileWriter = new FileWriter(fileName);
+            for (Map.Entry<BigDecimal, BigDecimal> entry : data.entrySet()) {
+                fileWriter.write(String.join(" ", entry.getKey().toString(), entry.getValue().toString(), "\n"));
+            }
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
